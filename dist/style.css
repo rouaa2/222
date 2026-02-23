@@ -1,1 +1,5 @@
-body { background-color:#Fee5F5}
+body { 
+    background: linear-gradient(135deg, #FFB6D9 0%, #FFC0E0 100%);
+    margin: 0;
+    padding: 0;
+}

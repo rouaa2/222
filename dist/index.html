@@ -13,43 +13,143 @@
 <head>
     <title>rouaa老師的簡易計算機</title>
     <style>
-        input[type="button"] {
-            width: 50px;
-            height: 50px;
+        body {
+            background: linear-gradient(135deg, #FFB6D9 0%, #FFC0E0 100%);
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
+
+        .calculator-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 5px solid #FFB6D9;
+        }
+
+        input[type="button"] {
+            width: 80px;
+            height: 80px;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 8px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="button"]:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="button"]:active {
+            transform: scale(0.95);
+        }
+
+        input[type="button"]:nth-child(1),
+        input[type="button"]:nth-child(2),
+        input[type="button"]:nth-child(3),
+        input[type="button"]:nth-child(4) {
+            background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+            color: #333;
+        }
+
+        input[type="button"]:nth-child(5),
+        input[type="button"]:nth-child(6),
+        input[type="button"]:nth-child(7),
+        input[type="button"]:nth-child(8) {
+            background: linear-gradient(135deg, #87CEEB 0%, #6BB6D6 100%);
+            color: #fff;
+        }
+
+        input[type="button"]:nth-child(9),
+        input[type="button"]:nth-child(10),
+        input[type="button"]:nth-child(11),
+        input[type="button"]:nth-child(12) {
+            background: linear-gradient(135deg, #98FB98 0%, #7FE57F 100%);
+            color: #333;
+        }
+
+        input[type="button"]:nth-child(13),
+        input[type="button"]:nth-child(14),
+        input[type="button"]:nth-child(15),
+        input[type="button"]:nth-child(16) {
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFA0B0 100%);
+            color: #fff;
+        }
+
         input[type="text"] {
-            width: 200px;
-            height: 50px;
+            width: 360px;
+            height: 70px;
+            font-size: 32px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 3px solid #FFB6D9;
+            border-radius: 15px;
+            text-align: right;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
+            box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #FF69B4;
+            box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        hr {
+            display: none;
+        }
+
+        h1 {
+            display: none;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
     </style>
 </head>
 <body>
-    <h1>rouaa老師的簡易計算機</h1>
-  <hr>
-   <hr>
-     <hr>
-    <input type="text" id="display" readonly>
-    <br>
-    <input type="button" value="1" onclick="appendToDisplay('1')">
-    <input type="button" value="2" onclick="appendToDisplay('2')">
-    <input type="button" value="3" onclick="appendToDisplay('3')">
-    <input type="button" value="+" onclick="appendToDisplay('+')">
-    <br>
-    <input type="button" value="4" onclick="appendToDisplay('4')">
-    <input type="button" value="5" onclick="appendToDisplay('5')">
-    <input type="button" value="6" onclick="appendToDisplay('6')">
-    <input type="button" value="-" onclick="appendToDisplay('-')">
-    <br>
-    <input type="button" value="7" onclick="appendToDisplay('7')">
-    <input type="button" value="8" onclick="appendToDisplay('8')">
-    <input type="button" value="9" onclick="appendToDisplay('9')">
-    <input type="button" value="*" onclick="appendToDisplay('*')">
-    <br>
-    <input type="button" value="0" onclick="appendToDisplay('0')">
-    <input type="button" value="C" onclick="clearDisplay()">
-    <input type="button" value="=" onclick="calculate()">
-    <input type="button" value="/" onclick="appendToDisplay('/')">
-    <br>
+    <div class="calculator-container">
+        <input type="text" id="display" readonly>
+        <br>
+        <div class="button-row">
+            <input type="button" value="1" onclick="appendToDisplay('1')">
+            <input type="button" value="2" onclick="appendToDisplay('2')">
+            <input type="button" value="3" onclick="appendToDisplay('3')">
+            <input type="button" value="+" onclick="appendToDisplay('+')">
+        </div>
+        <div class="button-row">
+            <input type="button" value="4" onclick="appendToDisplay('4')">
+            <input type="button" value="5" onclick="appendToDisplay('5')">
+            <input type="button" value="6" onclick="appendToDisplay('6')">
+            <input type="button" value="-" onclick="appendToDisplay('-')">
+        </div>
+        <div class="button-row">
+            <input type="button" value="7" onclick="appendToDisplay('7')">
+            <input type="button" value="8" onclick="appendToDisplay('8')">
+            <input type="button" value="9" onclick="appendToDisplay('9')">
+            <input type="button" value="*" onclick="appendToDisplay('*')">
+        </div>
+        <div class="button-row">
+            <input type="button" value="0" onclick="appendToDisplay('0')">
+            <input type="button" value="C" onclick="clearDisplay()">
+            <input type="button" value="=" onclick="calculate()">
+            <input type="button" value="/" onclick="appendToDisplay('/')">
+        </div>
+    </div>
     <script>
         function appendToDisplay(value) {
             document.getElementById("display").value += value;
