@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>古典風格計算機 - rouaa老師</title>
+    <title>工程用計算機 - rouaa老師</title>
     <style>
         body {
             background: url('./assets/bg.jpg') repeat;
@@ -24,10 +24,19 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             border: 6px solid #558b2f;
             backdrop-filter: blur(5px);
+            max-width: 500px;
+        }
+
+        .title {
+            text-align: center;
+            color: #33691e;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
 
         input[type="text"] {
-            width: 360px;
+            width: 100%;
             height: 80px;
             font-size: 40px;
             padding: 15px;
@@ -45,17 +54,18 @@
 
         .button-row {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             flex-wrap: wrap;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            gap: 8px;
         }
 
         input[type="button"] {
-            width: 85px;
-            height: 85px;
-            font-size: 30px;
+            flex: 1;
+            min-width: 60px;
+            height: 60px;
+            font-size: 18px;
             font-weight: bold;
-            margin: 10px;
             cursor: pointer;
             border-radius: 12px;
             border: 4px solid #558b2f;
@@ -81,7 +91,9 @@
         input[type="button"][value="+"],
         input[type="button"][value="-"],
         input[type="button"][value="*"],
-        input[type="button"][value="/"] {
+        input[type="button"][value="/"],
+        input[type="button"][value="^"],
+        input[type="button"][value="%"] {
             background: linear-gradient(135deg, #8bc34a 0%, #689f38 100%);
             border-color: #33691e;
             box-shadow: 0 6px 0 #33691e, inset 0 1px 0 rgba(255,255,255,0.3);
@@ -93,42 +105,179 @@
             box-shadow: 0 6px 0 #33691e, inset 0 1px 0 rgba(255,255,255,0.3);
         }
 
-        input[type="button"][value="C"] {
+        input[type="button"][value="C"],
+        input[type="button"][value="←"] {
             background: linear-gradient(135deg, #ff8a65 0%, #e64a19 100%);
             border-color: #bf360c;
             box-shadow: 0 6px 0 #bf360c, inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        /* 科學函數按鈕特殊樣式 */
+        input[type="button"][value="sin"],
+        input[type="button"][value="cos"],
+        input[type="button"][value="tan"],
+        input[type="button"][value="log"],
+        input[type="button"][value="ln"],
+        input[type="button"][value="√"],
+        input[type="button"][value="π"],
+        input[type="button"][value="e"],
+        input[type="button"][value="!"],
+        input[type="button"][value="("],
+        input[type="button"][value=")"] {
+            background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+            border-color: #0d47a1;
+            box-shadow: 0 6px 0 #0d47a1, inset 0 1px 0 rgba(255,255,255,0.3);
+            font-size: 16px;
+        }
+
+        .mode-toggle {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .mode-toggle button {
+            background: linear-gradient(135deg, #9ccc65 0%, #7cb342 100%);
+            border: 3px solid #558b2f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #558b2f;
+        }
+
+        .mode-toggle button:hover {
+            background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
+        }
+
+        .mode-toggle button:active {
+            box-shadow: 0 2px 0 #558b2f;
+            transform: translateY(2px);
+        }
+
+        .scientific-panel {
+            display: none;
+        }
+
+        .scientific-panel.active {
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="calculator-container">
+        <div class="title">工程用計算機</div>
+        
+        <div class="mode-toggle">
+            <button onclick="toggleMode()">切換到科學模式</button>
+        </div>
+
         <input type="text" id="display" readonly>
-        <div class="button-row">
-            <input type="button" value="1" onclick="appendToDisplay('1')">
-            <input type="button" value="2" onclick="appendToDisplay('2')">
-            <input type="button" value="3" onclick="appendToDisplay('3')">
-            <input type="button" value="+" onclick="appendToDisplay('+')">
+
+        <!-- 基礎計算機 -->
+        <div id="basicPanel">
+            <div class="button-row">
+                <input type="button" value="7" onclick="appendToDisplay('7')">
+                <input type="button" value="8" onclick="appendToDisplay('8')">
+                <input type="button" value="9" onclick="appendToDisplay('9')">
+                <input type="button" value="/" onclick="appendToDisplay('/')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="4" onclick="appendToDisplay('4')">
+                <input type="button" value="5" onclick="appendToDisplay('5')">
+                <input type="button" value="6" onclick="appendToDisplay('6')">
+                <input type="button" value="*" onclick="appendToDisplay('*')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="1" onclick="appendToDisplay('1')">
+                <input type="button" value="2" onclick="appendToDisplay('2')">
+                <input type="button" value="3" onclick="appendToDisplay('3')">
+                <input type="button" value="-" onclick="appendToDisplay('-')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="0" onclick="appendToDisplay('0')">
+                <input type="button" value="." onclick="appendToDisplay('.')">
+                <input type="button" value="=" onclick="calculate()">
+                <input type="button" value="+" onclick="appendToDisplay('+')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="C" onclick="clearDisplay()" style="flex: 1;">
+                <input type="button" value="←" onclick="backspace()" style="flex: 1;">
+            </div>
         </div>
-        <div class="button-row">
-            <input type="button" value="4" onclick="appendToDisplay('4')">
-            <input type="button" value="5" onclick="appendToDisplay('5')">
-            <input type="button" value="6" onclick="appendToDisplay('6')">
-            <input type="button" value="-" onclick="appendToDisplay('-')">
-        </div>
-        <div class="button-row">
-            <input type="button" value="7" onclick="appendToDisplay('7')">
-            <input type="button" value="8" onclick="appendToDisplay('8')">
-            <input type="button" value="9" onclick="appendToDisplay('9')">
-            <input type="button" value="*" onclick="appendToDisplay('*')">
-        </div>
-        <div class="button-row">
-            <input type="button" value="0" onclick="appendToDisplay('0')">
-            <input type="button" value="C" onclick="clearDisplay()">
-            <input type="button" value="=" onclick="calculate()">
-            <input type="button" value="/" onclick="appendToDisplay('/')">
+
+        <!-- 科學計算機 -->
+        <div id="scientificPanel" class="scientific-panel">
+            <div class="button-row">
+                <input type="button" value="sin" onclick="appendToDisplay('sin(')">
+                <input type="button" value="cos" onclick="appendToDisplay('cos(')">
+                <input type="button" value="tan" onclick="appendToDisplay('tan(')">
+                <input type="button" value="(" onclick="appendToDisplay('(')">
+                <input type="button" value=")" onclick="appendToDisplay(')')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="log" onclick="appendToDisplay('log(')">
+                <input type="button" value="ln" onclick="appendToDisplay('ln(')">
+                <input type="button" value="√" onclick="appendToDisplay('sqrt(')">
+                <input type="button" value="^" onclick="appendToDisplay('^')">
+                <input type="button" value="%" onclick="appendToDisplay('%')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="π" onclick="appendToDisplay('3.14159265359')">
+                <input type="button" value="e" onclick="appendToDisplay('2.71828182846')">
+                <input type="button" value="!" onclick="appendToDisplay('!')">
+                <input type="button" value="7" onclick="appendToDisplay('7')">
+                <input type="button" value="8" onclick="appendToDisplay('8')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="9" onclick="appendToDisplay('9')">
+                <input type="button" value="/" onclick="appendToDisplay('/')">
+                <input type="button" value="4" onclick="appendToDisplay('4')">
+                <input type="button" value="5" onclick="appendToDisplay('5')">
+                <input type="button" value="6" onclick="appendToDisplay('6')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="*" onclick="appendToDisplay('*')">
+                <input type="button" value="1" onclick="appendToDisplay('1')">
+                <input type="button" value="2" onclick="appendToDisplay('2')">
+                <input type="button" value="3" onclick="appendToDisplay('3')">
+                <input type="button" value="-" onclick="appendToDisplay('-')">
+            </div>
+            <div class="button-row">
+                <input type="button" value="+" onclick="appendToDisplay('+')">
+                <input type="button" value="0" onclick="appendToDisplay('0')">
+                <input type="button" value="." onclick="appendToDisplay('.')">
+                <input type="button" value="=" onclick="calculate()" style="flex: 2;">
+            </div>
+            <div class="button-row">
+                <input type="button" value="C" onclick="clearDisplay()" style="flex: 1;">
+                <input type="button" value="←" onclick="backspace()" style="flex: 1;">
+            </div>
         </div>
     </div>
+
     <script>
+        let isScientificMode = false;
+
+        function toggleMode() {
+            isScientificMode = !isScientificMode;
+            const basicPanel = document.getElementById('basicPanel');
+            const scientificPanel = document.getElementById('scientificPanel');
+            const button = document.querySelector('.mode-toggle button');
+
+            if (isScientificMode) {
+                basicPanel.style.display = 'none';
+                scientificPanel.classList.add('active');
+                button.textContent = '切換到基礎模式';
+            } else {
+                basicPanel.style.display = 'block';
+                scientificPanel.classList.remove('active');
+                button.textContent = '切換到科學模式';
+            }
+        }
+
         function appendToDisplay(value) {
             document.getElementById("display").value += value;
         }
@@ -137,18 +286,61 @@
             document.getElementById("display").value = '';
         }
 
+        function backspace() {
+            const display = document.getElementById("display");
+            display.value = display.value.slice(0, -1);
+        }
+
         function calculate() {
-            var expression = document.getElementById("display").value;
+            const display = document.getElementById("display");
+            const expression = display.value;
+
             try {
-                // 使用簡單的正則表達式過濾非計算字符以增強安全性
-                if (/^[0-9+\-*/. ]+$/.test(expression)) {
-                    document.getElementById("display").value = eval(expression);
-                } else {
-                    document.getElementById("display").value = 'Error';
-                }
+                // 建立安全的數學環境
+                const result = evaluateMathExpression(expression);
+                display.value = result;
             } catch (e) {
-                document.getElementById("display").value = 'Error';
+                display.value = 'Error';
             }
+        }
+
+        function evaluateMathExpression(expr) {
+            // 替換數學函數
+            expr = expr.replace(/sin\(/g, 'Math.sin(');
+            expr = expr.replace(/cos\(/g, 'Math.cos(');
+            expr = expr.replace(/tan\(/g, 'Math.tan(');
+            expr = expr.replace(/log\(/g, 'Math.log10(');
+            expr = expr.replace(/ln\(/g, 'Math.log(');
+            expr = expr.replace(/sqrt\(/g, 'Math.sqrt(');
+            expr = expr.replace(/\^/g, '**');
+            
+            // 處理階乘
+            expr = expr.replace(/(\d+)!/g, (match, num) => {
+                return factorial(parseInt(num));
+            });
+
+            // 將角度轉換為弧度（假設輸入為度數）
+            expr = expr.replace(/Math\.(sin|cos|tan)\(([\d.]+)\)/g, (match, func, angle) => {
+                const radian = parseFloat(angle) * Math.PI / 180;
+                return `Math.${func}(${radian})`;
+            });
+
+            // 安全評估
+            if (/^[0-9+\-*/().^%\s]*$/.test(expr.replace(/Math\.\w+/g, ''))) {
+                return eval(expr);
+            } else {
+                throw new Error('Invalid expression');
+            }
+        }
+
+        function factorial(n) {
+            if (n < 0) return NaN;
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
         }
     </script>
 </body>
