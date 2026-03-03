@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>工程用計算機 - rouaa老師</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: url('./assets/bg.jpg') repeat;
             background-size: 300px;
@@ -13,18 +19,18 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             padding: 20px;
         }
 
         .calculator-container {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 35px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             border: 6px solid #558b2f;
             backdrop-filter: blur(5px);
-            max-width: 500px;
+            width: 100%;
+            max-width: 480px;
         }
 
         .title {
@@ -35,7 +41,7 @@
             font-weight: bold;
         }
 
-        input[type="text"] {
+        .display {
             width: 100%;
             height: 80px;
             font-size: 40px;
@@ -46,88 +52,9 @@
             text-align: right;
             background-color: #f1f8f1;
             color: #33691e;
-            box-sizing: border-box;
             outline: none;
             font-family: 'Georgia', serif;
             box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-            gap: 8px;
-        }
-
-        input[type="button"] {
-            flex: 1;
-            min-width: 60px;
-            height: 60px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 12px;
-            border: 4px solid #558b2f;
-            background: linear-gradient(135deg, #9ccc65 0%, #7cb342 100%);
-            color: #fff;
-            transition: all 0.15s;
-            box-shadow: 0 6px 0 #558b2f, inset 0 1px 0 rgba(255,255,255,0.3);
-            outline: none;
-            font-family: 'Georgia', serif;
-        }
-
-        input[type="button"]:hover {
-            background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
-            transform: translateY(-2px);
-        }
-
-        input[type="button"]:active {
-            box-shadow: 0 2px 0 #558b2f, inset 0 1px 0 rgba(255,255,255,0.3);
-            transform: translateY(4px);
-        }
-
-        /* 運算符號按鈕特殊樣式 */
-        input[type="button"][value="+"],
-        input[type="button"][value="-"],
-        input[type="button"][value="*"],
-        input[type="button"][value="/"],
-        input[type="button"][value="^"],
-        input[type="button"][value="%"] {
-            background: linear-gradient(135deg, #8bc34a 0%, #689f38 100%);
-            border-color: #33691e;
-            box-shadow: 0 6px 0 #33691e, inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-
-        input[type="button"][value="="] {
-            background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
-            border-color: #33691e;
-            box-shadow: 0 6px 0 #33691e, inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-
-        input[type="button"][value="C"],
-        input[type="button"][value="←"] {
-            background: linear-gradient(135deg, #ff8a65 0%, #e64a19 100%);
-            border-color: #bf360c;
-            box-shadow: 0 6px 0 #bf360c, inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-
-        /* 科學函數按鈕特殊樣式 */
-        input[type="button"][value="sin"],
-        input[type="button"][value="cos"],
-        input[type="button"][value="tan"],
-        input[type="button"][value="log"],
-        input[type="button"][value="ln"],
-        input[type="button"][value="√"],
-        input[type="button"][value="π"],
-        input[type="button"][value="e"],
-        input[type="button"][value="!"],
-        input[type="button"][value="("],
-        input[type="button"][value=")"] {
-            background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
-            border-color: #0d47a1;
-            box-shadow: 0 6px 0 #0d47a1, inset 0 1px 0 rgba(255,255,255,0.3);
-            font-size: 16px;
         }
 
         .mode-toggle {
@@ -146,6 +73,7 @@
             font-weight: bold;
             transition: all 0.15s;
             box-shadow: 0 4px 0 #558b2f;
+            font-family: 'Georgia', serif;
         }
 
         .mode-toggle button:hover {
@@ -157,12 +85,113 @@
             transform: translateY(2px);
         }
 
+        .button-grid {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .basic-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .scientific-grid {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .button {
+            height: 60px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 10px;
+            border: 3px solid #558b2f;
+            background: linear-gradient(135deg, #9ccc65 0%, #7cb342 100%);
+            color: #fff;
+            transition: all 0.15s;
+            box-shadow: 0 5px 0 #558b2f, inset 0 1px 0 rgba(255,255,255,0.3);
+            outline: none;
+            font-family: 'Georgia', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            box-shadow: 0 2px 0 #558b2f, inset 0 1px 0 rgba(255,255,255,0.3);
+            transform: translateY(3px);
+        }
+
+        /* 運算符號按鈕 */
+        .operator {
+            background: linear-gradient(135deg, #8bc34a 0%, #689f38 100%);
+            border-color: #33691e;
+            box-shadow: 0 5px 0 #33691e, inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .operator:hover {
+            background: linear-gradient(135deg, #689f38 0%, #33691e 100%);
+        }
+
+        /* 等號按鈕 */
+        .equals {
+            background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
+            border-color: #33691e;
+            box-shadow: 0 5px 0 #33691e, inset 0 1px 0 rgba(255,255,255,0.3);
+            grid-column: span 2;
+        }
+
+        .equals:hover {
+            background: linear-gradient(135deg, #558b2f 0%, #33691e 100%);
+        }
+
+        /* 清除與退格按鈕 */
+        .clear {
+            background: linear-gradient(135deg, #ff8a65 0%, #e64a19 100%);
+            border-color: #bf360c;
+            box-shadow: 0 5px 0 #bf360c, inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .clear:hover {
+            background: linear-gradient(135deg, #e64a19 0%, #bf360c 100%);
+        }
+
+        /* 科學函數按鈕 */
+        .scientific-func {
+            background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+            border-color: #0d47a1;
+            box-shadow: 0 5px 0 #0d47a1, inset 0 1px 0 rgba(255,255,255,0.3);
+            font-size: 16px;
+        }
+
+        .scientific-func:hover {
+            background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+        }
+
+        /* 隱藏科學模式 */
         .scientific-panel {
             display: none;
         }
 
         .scientific-panel.active {
             display: block;
+        }
+
+        .basic-panel.hidden {
+            display: none;
+        }
+
+        /* 控制按鈕行 */
+        .control-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -174,86 +203,88 @@
             <button onclick="toggleMode()">切換到科學模式</button>
         </div>
 
-        <input type="text" id="display" readonly>
+        <input type="text" id="display" class="display" readonly>
 
         <!-- 基礎計算機 -->
-        <div id="basicPanel">
-            <div class="button-row">
-                <input type="button" value="7" onclick="appendToDisplay('7')">
-                <input type="button" value="8" onclick="appendToDisplay('8')">
-                <input type="button" value="9" onclick="appendToDisplay('9')">
-                <input type="button" value="/" onclick="appendToDisplay('/')">
+        <div id="basicPanel" class="basic-panel">
+            <div class="button-grid basic-grid">
+                <button class="button" onclick="appendToDisplay('7')">7</button>
+                <button class="button" onclick="appendToDisplay('8')">8</button>
+                <button class="button" onclick="appendToDisplay('9')">9</button>
+                <button class="button operator" onclick="appendToDisplay('/')">÷</button>
+
+                <button class="button" onclick="appendToDisplay('4')">4</button>
+                <button class="button" onclick="appendToDisplay('5')">5</button>
+                <button class="button" onclick="appendToDisplay('6')">6</button>
+                <button class="button operator" onclick="appendToDisplay('*')">×</button>
+
+                <button class="button" onclick="appendToDisplay('1')">1</button>
+                <button class="button" onclick="appendToDisplay('2')">2</button>
+                <button class="button" onclick="appendToDisplay('3')">3</button>
+                <button class="button operator" onclick="appendToDisplay('-')">−</button>
+
+                <button class="button" onclick="appendToDisplay('0')">0</button>
+                <button class="button" onclick="appendToDisplay('.')">.</button>
+                <button class="button equals" onclick="calculate()">=</button>
+                <button class="button operator" onclick="appendToDisplay('+')">+</button>
             </div>
-            <div class="button-row">
-                <input type="button" value="4" onclick="appendToDisplay('4')">
-                <input type="button" value="5" onclick="appendToDisplay('5')">
-                <input type="button" value="6" onclick="appendToDisplay('6')">
-                <input type="button" value="*" onclick="appendToDisplay('*')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="1" onclick="appendToDisplay('1')">
-                <input type="button" value="2" onclick="appendToDisplay('2')">
-                <input type="button" value="3" onclick="appendToDisplay('3')">
-                <input type="button" value="-" onclick="appendToDisplay('-')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="0" onclick="appendToDisplay('0')">
-                <input type="button" value="." onclick="appendToDisplay('.')">
-                <input type="button" value="=" onclick="calculate()">
-                <input type="button" value="+" onclick="appendToDisplay('+')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="C" onclick="clearDisplay()" style="flex: 1;">
-                <input type="button" value="←" onclick="backspace()" style="flex: 1;">
+
+            <div class="control-row">
+                <button class="button clear" onclick="clearDisplay()">清除 (C)</button>
+                <button class="button clear" onclick="backspace()">退格 (←)</button>
             </div>
         </div>
 
         <!-- 科學計算機 -->
         <div id="scientificPanel" class="scientific-panel">
-            <div class="button-row">
-                <input type="button" value="sin" onclick="appendToDisplay('sin(')">
-                <input type="button" value="cos" onclick="appendToDisplay('cos(')">
-                <input type="button" value="tan" onclick="appendToDisplay('tan(')">
-                <input type="button" value="(" onclick="appendToDisplay('(')">
-                <input type="button" value=")" onclick="appendToDisplay(')')">
+            <div class="button-grid scientific-grid">
+                <!-- 第一行：科學函數 -->
+                <button class="button scientific-func" onclick="appendToDisplay('sin(')">sin</button>
+                <button class="button scientific-func" onclick="appendToDisplay('cos(')">cos</button>
+                <button class="button scientific-func" onclick="appendToDisplay('tan(')">tan</button>
+                <button class="button scientific-func" onclick="appendToDisplay('log(')">log</button>
+                <button class="button scientific-func" onclick="appendToDisplay('ln(')">ln</button>
+
+                <!-- 第二行：常數與進階運算 -->
+                <button class="button scientific-func" onclick="appendToDisplay('3.14159265359')">π</button>
+                <button class="button scientific-func" onclick="appendToDisplay('2.71828182846')">e</button>
+                <button class="button scientific-func" onclick="appendToDisplay('sqrt(')">√</button>
+                <button class="button operator" onclick="appendToDisplay('^')">^</button>
+                <button class="button scientific-func" onclick="appendToDisplay('!')">!</button>
+
+                <!-- 第三行：數字與括號 -->
+                <button class="button" onclick="appendToDisplay('7')">7</button>
+                <button class="button" onclick="appendToDisplay('8')">8</button>
+                <button class="button" onclick="appendToDisplay('9')">9</button>
+                <button class="button operator" onclick="appendToDisplay('/')" style="grid-column: span 2;">÷</button>
+
+                <!-- 第四行：數字與運算 -->
+                <button class="button" onclick="appendToDisplay('4')">4</button>
+                <button class="button" onclick="appendToDisplay('5')">5</button>
+                <button class="button" onclick="appendToDisplay('6')">6</button>
+                <button class="button operator" onclick="appendToDisplay('*')" style="grid-column: span 2;">×</button>
+
+                <!-- 第五行：數字與運算 -->
+                <button class="button" onclick="appendToDisplay('1')">1</button>
+                <button class="button" onclick="appendToDisplay('2')">2</button>
+                <button class="button" onclick="appendToDisplay('3')">3</button>
+                <button class="button operator" onclick="appendToDisplay('-')" style="grid-column: span 2;">−</button>
+
+                <!-- 第六行：數字與小數 -->
+                <button class="button" onclick="appendToDisplay('0')" style="grid-column: span 2;">0</button>
+                <button class="button" onclick="appendToDisplay('.')">.</button>
+                <button class="button operator" onclick="appendToDisplay('+')" style="grid-column: span 2;">+</button>
+
+                <!-- 第七行：括號 -->
+                <button class="button scientific-func" onclick="appendToDisplay('(')">(</button>
+                <button class="button scientific-func" onclick="appendToDisplay(')')">)</button>
+                <button class="button operator" onclick="appendToDisplay('%')">%</button>
+                <button class="button equals" onclick="calculate()" style="grid-column: span 2;">=</button>
             </div>
-            <div class="button-row">
-                <input type="button" value="log" onclick="appendToDisplay('log(')">
-                <input type="button" value="ln" onclick="appendToDisplay('ln(')">
-                <input type="button" value="√" onclick="appendToDisplay('sqrt(')">
-                <input type="button" value="^" onclick="appendToDisplay('^')">
-                <input type="button" value="%" onclick="appendToDisplay('%')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="π" onclick="appendToDisplay('3.14159265359')">
-                <input type="button" value="e" onclick="appendToDisplay('2.71828182846')">
-                <input type="button" value="!" onclick="appendToDisplay('!')">
-                <input type="button" value="7" onclick="appendToDisplay('7')">
-                <input type="button" value="8" onclick="appendToDisplay('8')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="9" onclick="appendToDisplay('9')">
-                <input type="button" value="/" onclick="appendToDisplay('/')">
-                <input type="button" value="4" onclick="appendToDisplay('4')">
-                <input type="button" value="5" onclick="appendToDisplay('5')">
-                <input type="button" value="6" onclick="appendToDisplay('6')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="*" onclick="appendToDisplay('*')">
-                <input type="button" value="1" onclick="appendToDisplay('1')">
-                <input type="button" value="2" onclick="appendToDisplay('2')">
-                <input type="button" value="3" onclick="appendToDisplay('3')">
-                <input type="button" value="-" onclick="appendToDisplay('-')">
-            </div>
-            <div class="button-row">
-                <input type="button" value="+" onclick="appendToDisplay('+')">
-                <input type="button" value="0" onclick="appendToDisplay('0')">
-                <input type="button" value="." onclick="appendToDisplay('.')">
-                <input type="button" value="=" onclick="calculate()" style="flex: 2;">
-            </div>
-            <div class="button-row">
-                <input type="button" value="C" onclick="clearDisplay()" style="flex: 1;">
-                <input type="button" value="←" onclick="backspace()" style="flex: 1;">
+
+            <div class="control-row">
+                <button class="button clear" onclick="clearDisplay()">清除 (C)</button>
+                <button class="button clear" onclick="backspace()">退格 (←)</button>
             </div>
         </div>
     </div>
@@ -268,11 +299,11 @@
             const button = document.querySelector('.mode-toggle button');
 
             if (isScientificMode) {
-                basicPanel.style.display = 'none';
+                basicPanel.classList.add('hidden');
                 scientificPanel.classList.add('active');
                 button.textContent = '切換到基礎模式';
             } else {
-                basicPanel.style.display = 'block';
+                basicPanel.classList.remove('hidden');
                 scientificPanel.classList.remove('active');
                 button.textContent = '切換到科學模式';
             }
@@ -296,7 +327,6 @@
             const expression = display.value;
 
             try {
-                // 建立安全的數學環境
                 const result = evaluateMathExpression(expression);
                 display.value = result;
             } catch (e) {
